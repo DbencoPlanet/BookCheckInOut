@@ -2,9 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BookCheckInOut.Core.Checkouts;
+using BookCheckInOut.Data.Contexts;
 using BookCheckInOut.Repository.Repository.Books;
 using BookCheckInOut.Repository.Repository.Checkouts;
 using BookCheckInOut.Web.Dtos.Catalog;
+using BookCheckInOut.Web.Dtos.Checkouts;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
@@ -16,24 +19,32 @@ namespace BookCheckInOut.Web.Pages.Catalog
         private readonly IBookService _bookService;
         private readonly ICheckoutService _checkoutService;
         private readonly ILogger<DetailModel> _logger;
+        private readonly BookCheckInOutDBContext _context;
 
         public DetailModel(
             IBookService bookService,
             ICheckoutService checkoutService,
-            ILogger<DetailModel> logger
+            ILogger<DetailModel> logger,
+            BookCheckInOutDBContext context
             )
         {
             _bookService = bookService;
             _checkoutService = checkoutService;
             _logger = logger;
+            _context = context;
         }
 
         [BindProperty]
         public BookDetailDto Book { get; set; }
+
+        [BindProperty]
+        public Checkout Checkout { get; set; }
         public void OnGet(long id)
         {
             var getBook = _bookService.GetById(id);
             var currentCheckedin = _checkoutService.GetCurrentCheckin(id);
+            var checkout = _context.Checkouts.FirstOrDefault(x=>x.BookId == getBook.Id);
+            Checkout = checkout;
             currentCheckedin.Select(a => new BookCheckinModel
             {
                 Checkedin = _checkoutService.GetCurrentCheckedin(a.Id).ToString("d"),

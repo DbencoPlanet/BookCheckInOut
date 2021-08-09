@@ -29,7 +29,7 @@ namespace BookCheckInOut.Repository.Repository.Checkouts
 
         public IEnumerable<Checkout> GetAll()
         {
-            return _context.Checkouts;
+            return _context.Checkouts.Include(x=>x.Book).Include(x=>x.Book);
         }
 
         public Checkout GetById(long checkoutId)

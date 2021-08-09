@@ -69,8 +69,7 @@ namespace BookCheckInOut.Web.Pages.Catalog
                 var getPerson = _personService.GetById(getCheckout.PersonId.GetValueOrDefault());
                 var returnDate = getCheckout.ReturnDate;
                 var now = DateTime.Now;
-                _checkoutService.CheckInItem(id);
-                if(now > GetDefaultCheckoutTime(returnDate))
+                if (now > GetDefaultCheckoutTime(returnDate))
                 {
                     Person.Id = getPerson.Id;
                     Person.FirstName = getPerson.FirstName;
@@ -80,8 +79,10 @@ namespace BookCheckInOut.Web.Pages.Catalog
                     Person.PenaltyFee = 500;
                     _personService.Edit(Person);
                 }
+                _checkoutService.CheckInItem(getCheckout.BookId.GetValueOrDefault());
+                
                 _logger.LogInformation("Checked in item successfully");
-                return RedirectToPage("./Detail", new { id = id });
+                return RedirectToPage("/Catalog/Index");
             }
             catch (Exception ex)
             {

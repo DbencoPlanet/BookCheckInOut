@@ -45,7 +45,7 @@
             @if (Model.Book.Status == Core.Enums.BookStatus.Checkout)
             {
                 <p id="itemPatron">Checked out by: @Model.Book.PersonName</p>
-                <p><a class="btn btn-lg btn-success" role="button" id="itemPerson" asp-page="Checkin" asp-route-id="@Model.Book.Id">Check In</a></p>
+                <p><a class="btn btn-lg btn-success" role="button" id="itemPerson" asp-page="Checkin" asp-route-id="@Model.Checkout.Id">Check In</a></p>
                 <p><a class="btn btn-lg btn-warning" role="button" id="itemPerson" asp-page="Hold" asp-route-id="@Model.Book.Id">Place Hold</a></p>
             }
 
@@ -91,7 +91,7 @@
                 @foreach (var checkout in @Model.Book.CheckoutHistory)
                 {
                 <tr>
-                    <td>@Model.Book.PersonName</td>
+                    <td>@checkout.Person.FullName</td>
                     <td>@checkout.CheckedOut</td>
                     <td>@checkout.CheckedIn</td>
 
