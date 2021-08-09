@@ -1,0 +1,70 @@
+﻿@page
+@model BookCheckInOut.Web.Pages.Persons.DetailModel
+@{
+}
+
+<div class="container">
+    <div class="header clearfix detailHeading">
+        <h2 class="text-muted">Person Information</h2>
+    </div>
+    <div class="jumbotron">
+        <div class="row">
+            <div class="col-md-4">
+                <div>
+                    <h2>@Model.Person.FullName</h2>
+                    <div class="personContact">
+                        <div id="personID">National ID: @Model.Person.NationalID</div>
+                        <div id="personTel">Mobile No: @Model.Person.MobileNo</div>
+                        @if (Model.Person.PenaltyFee > 0)
+                        {
+                            <div id="personHasFees">Current Fees Due: $@Model.Person.PenaltyFee</div> }
+                        else
+                        {
+                            <div id="personNoFees">No Fees Currently Due.</div>
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <h5>Currently Checked Out</h5>
+                @if (Model.Person.Checkouts.Any())
+                {
+                    <div id="patronAssets">
+                        <ul>
+                            @foreach (var checkout in Model.Person.Checkouts)
+                            {
+                                <li>
+                                    @checkout.Book.Title - (Book ID: @checkout.BookId)
+                                    <ul>
+                                        <li>Since: @checkout.CheckoutDate </li>
+                                        <li>Due: @checkout.ReturnDate</li>
+                                    </ul>
+                                </li>
+                            }
+                        </ul>
+                    </div> }
+                else
+                {
+                    <div>No Items Currently Checked Out.</div>
+                }
+            </div>
+            <div class="col-md-4">
+                <h5>Currently on Hold</h5>
+                @if (Model.Person.Checkins.Any())
+                {
+                    <div id="patronHolds">
+                        <ul>
+                            @foreach (var hold in Model.Person.Checkins)
+                            {
+                                <li>@hold.Book.Title - Placed @hold.CheckedinDate.ToString("yy-dd-MM - HH:mm")</li>
+                            }
+                        </ul>
+                    </div> }
+                else
+                {
+                    <div>No Items On Hold.</div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

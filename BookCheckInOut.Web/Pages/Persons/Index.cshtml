@@ -1,0 +1,35 @@
+﻿@page
+@model BookCheckInOut.Web.Pages.Persons.IndexModel
+@{
+}
+
+@{ ViewData["Title"] = "Person Index"; }
+
+<h3>@ViewData["Title"]</h3>
+<div id="patronIndex">
+    <table class="table" id="patronIndexTable">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">Profile Link</th>
+                <th scope="col">Last Name</th>
+                <th scope="col">First Name</th>
+                <th scope="col">National ID</th>
+                <th scope="col">Mobile No</th>
+                <th scope="col">Overdue Fees</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var patron in Model.Person)
+            {
+                <tr>
+                    <td><a asp-page="/Persons/Detail" asp-route-id="@patron.Id">(Profile)</a></td>
+                    <td>@patron.LastName</td>
+                    <td>@patron.FirstName</td>
+                    <td>@patron.NationalID</td>
+                    <td>@patron.MobileNo</td>
+                    <td>@patron.PenaltyFee</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

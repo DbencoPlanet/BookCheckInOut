@@ -1,0 +1,95 @@
+﻿@page
+@model BookCheckInOut.Web.Pages.Catalog.CheckoutModel
+
+@{
+}
+
+@section Scripts{
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+}
+
+@section Styles{
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+}
+
+<div class="container">
+    <div class="header clearfix detailHeading">
+        <h2 class="text-muted">Checkout Book Item</h2>
+    </div>
+
+    <div class="jumbotron">
+        <div class="row">
+            <div class="col-md-3">
+                <div>
+                    <p id="itemTitle">@Model.Book.Title</p>
+                    <img class="detailImage" src="@Url.Content(Model.Book.ImageUrl)" />
+                </div>
+            </div>
+            <div class="col-md-4">
+                <p id="itemTitle">@Model.Book.PersonName</p>
+                <p id="itemISBN">@Model.Book</p>
+                <p id="itemYear">@Model.Book.Year</p>
+                <p id="itemYear">@Model.Book.Cost</p>
+                @if (Model.Book.Status == Core.Enums.BookStatus.Checkin)
+                {
+                    <p id="itemStatus">Check-in</p>
+                }
+                else if (Model.Book.Status == Core.Enums.BookStatus.Checkout)
+                {
+                    <p id="itemStatus">Check-out</p>
+                }
+                else if (Model.Book.Status == Core.Enums.BookStatus.Lost)
+                {
+                    <p id="itemStatus">Lost</p>
+                }
+
+
+                @if (Model.Book.Status == Core.Enums.BookStatus.Lost)
+                {
+                    <p>This item has been lost! It cannot be checked out.</p>
+                    <p><button type="submit" class="btn btn-lg btn-danger" role="button" asp-page-handler="MarkFound" asp-route-id="@Model.Book.Id">Mark Item Found</button></p>
+                }
+
+                @if (Model.Book.Status == Core.Enums.BookStatus.Checkout)
+                {
+                    <p id="itemPatron">Checked out by: @Model.Book.PersonName</p>
+                    <p><a class="btn btn-lg btn-success" role="button" id="itemPerson" asp-page="Checkin" asp-route-id="@Model.Book.Id">Check In</a></p>
+                    <p><a class="btn btn-lg btn-warning" role="button" id="itemPerson" asp-page="Hold" asp-route-id="@Model.Book.Id">Place Hold</a></p>
+                }
+
+                @if (Model.Book.Status == Core.Enums.BookStatus.Checkin)
+                {
+                    <p class="btn btn-lg btn-warning" role="button"><a asp-page="Checkout" asp-route-id="@Model.Book.Id">Check Out</a></p>
+                }
+
+            </div>
+            <div class="col-md-9">
+                <form method="post">
+                    <input type="hidden" asp-for="BookId" value="@Model.Book.Id" />
+
+                    <div class="form-group">
+                        <input type="text" class="form-control" asp-for="Person.FirstName" placeholder="Add Firstname*" required />
+                        <span asp-validation-for="Person.FirstName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" asp-for="Person.LastName" placeholder="Add Lastname*" required />
+                        <span asp-validation-for="Person.LastName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" asp-for="Person.MobileNo" placeholder="Mobile No*" required />
+                        <span asp-validation-for="Person.MobileNo" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" asp-for="Person.NationalID" placeholder="National ID*" required />
+                        <span asp-validation-for="Person.NationalID" class="text-danger"></span>
+                    </div>
+                    <div>
+                        <button type="submit" class="btn btn-success btn-lg">Check out</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,70 @@
+﻿@page
+@model BookCheckInOut.Web.Pages.Catalog.CheckinModel
+@{
+}
+
+
+
+<div class="container">
+    <div class="page-header clearfix detailHeading">
+        <h2 class="text-muted">View Book Item</h2>
+    </div>
+</div>
+
+<div class="jumbotron">
+    <div class="row">
+        <div class="col-md-4">
+            <div>
+                <img src="@Url.Content(Model.Checkout.ImageUrl)" alt="Book Cover" class="detailImage" />
+            </div>
+        </div>
+        @*<div class="col-md-4">
+            <p id="itemPerson">@Model.Checkout.PersonName</p>
+            <p id="itemNo">@Model.Checkout.MobileNo</p>
+            <p id="itemReturn">@Model.Checkout.ReturnDate</p>
+            <p id="itemRequired">@Model.Checkout.RequiredDate</p>
+
+        </div>*@
+        <div class="col-md-4 detailInfo">
+            <table>
+                <tr>
+                    <td class="itemLabel">Name: </td>
+                    <td class="ItemValue">@Model.Checkout.PersonName</td>
+                </tr>
+                <tr>
+                    <td class="itemLabel">Mobile No: </td>
+                    <td class="ItemValue">@Model.Checkout.MobileNo</td>
+                </tr>
+
+                <tr>
+                    <td class="itemLabel">Return Date: </td>
+                    <td class="ItemValue">@Model.Checkout.ReturnDate</td>
+                </tr>
+
+                <tr>
+                    <td class="itemLabel">Required Return Date: </td>
+                    <td class="ItemValue">@Model.Checkout.RequiredDate</td>
+                </tr>
+                @if (Model.Checkout.RequiredDate > DateTime.Now)
+                {
+                    <tr>
+                        <td class="itemLabel">Penalty Fee: </td>
+                        <td class="ItemValue">₦500</td>
+                    </tr>
+                }
+
+            </table>
+        </div>
+        <div class="col-md-4">
+            <form method="post">
+                <input type="hidden" asp-for="BookId" value="@Model.Checkout.BookId" />
+                
+                <div>
+                    <button type="submit" class="btn btn-success btn-lg">Check in</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+

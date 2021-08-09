@@ -1,0 +1,74 @@
+﻿@page
+@model BookCheckInOut.Web.Pages.Catalog.IndexModel
+@inject BookCheckInOut.Repository.Repository.Checkouts.ICheckoutService check
+@{
+}
+
+<div id="assets">
+    <h3>Book Catalog</h3>
+   
+        <div id="assetsTable">
+            <table class="table table-sm" id="catalogIndexTable">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">Selected</th>
+                        <th scope="col">Image</th>
+                        <th scope="col">Title</th>
+                        <th scope="col">ISBN</th>
+                        <th scope="col">Year</th>
+                        <th scope="col">Cost</th>
+                        <th scope="col">Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var book in Model.Books)
+                    {
+                    <tr class="assetRow">
+                        @{
+                            var check2 = check.IsCheckedOut(book.Id);
+                            if (check2 == true)
+                            {
+                                <td><input type="checkbox" checked />&nbsp;</td>
+                            }
+                            else
+                            {
+                                <td><input type="checkbox" />&nbsp;</td>
+                            }
+
+                        }
+
+
+                        <td class="">
+                            <a asp-page="/Catalog/Detail" asp-route-id="@book.Id">
+                                <img src="@Url.Content(book.ImageUrl)" class="imageCell" />
+                            </a>
+                        </td>
+                        <td class="">@book.Title</td>
+                        <td>@book.ISBN</td>
+                        <td>@book.Year</td>
+                        <td>₦@book.Cost</td>
+
+                        @if (book.Status == Core.Enums.BookStatus.Checkin)
+                        {
+                            <td>Check-in</td>
+                        }
+                        else if (book.Status == Core.Enums.BookStatus.Checkout)
+                        {
+                            <td>Check-out</td>
+                        }
+                        else if (book.Status == Core.Enums.BookStatus.Lost)
+                        {
+                            <td>Lost</td>
+                        }
+                        else
+                        {
+                            <td>Available</td>
+                        }
+
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+</div>

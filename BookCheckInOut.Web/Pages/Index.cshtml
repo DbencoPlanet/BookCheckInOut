@@ -1,0 +1,42 @@
+﻿@page
+@model BookCheckInOut.Web.Pages.IndexModel
+@{ ViewData["Title"] = "Book Check-in Check-out System"; }
+
+<div class="text-center">
+    <h1 class="display-4">@ViewData["Title"]</h1>
+    <h3>Welcome to Check-in Check-out BookStore</h3>
+</div>
+<div class="card-group">
+    <div class="card">
+        <div>
+            <div class="card-body">
+                <h2 class="text-center card-title bg-light text-dark" id="catalog">Book Catalog</h2>
+                <div class="card-subtitle">
+                    View and manage library assets.
+                </div>
+                <div class="card-text card-link">
+                    <a class="btn btn-info btn-lg btn-block" asp-page="/Catalog/Index">
+                        View Catalog
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div>
+            <div class="card-body">
+                <h2 class="text-center card-title bg-light text-dark text-xl-center" id="patrons">Borrowers</h2>
+                <div class="card-subtitle">
+                    View and manage library borrower data.
+                </div>
+                <div class="card-text card-link">
+                    <a class="btn btn-info btn-lg btn-block" asp-page="/Persons/Index">
+                        View Borrower Index
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

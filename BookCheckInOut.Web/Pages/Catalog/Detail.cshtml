@@ -1,0 +1,125 @@
+﻿@page
+@model BookCheckInOut.Web.Pages.Catalog.DetailModel
+@{
+}
+
+
+<div class="container">
+    <div class="page-header clearfix detailHeading">
+        <h2 class="text-muted">View Book Item</h2>
+    </div>
+</div>
+
+<div class="jumbotron">
+    <div class="row">
+        <div class="col-md-4">
+            <div>
+                <img src="@Url.Content(Model.Book.ImageUrl)" alt="Book Cover" class="detailImage" />
+            </div>
+        </div>
+        <div class="col-md-4">
+            <p id="itemTitle">@Model.Book.Title</p>
+            <p id="itemISBN">@Model.Book.ISBN</p>
+            <p id="itemYear">@Model.Book.Year</p>
+            <p id="itemYear">₦@Model.Book.Cost</p>
+            @if (Model.Book.Status == Core.Enums.BookStatus.Checkin)
+            {
+                <p id="itemStatus">Check-in</p>
+            }
+            else if (Model.Book.Status == Core.Enums.BookStatus.Checkout)
+            {
+                <p id="itemStatus">Check-out</p>
+            }
+            else if (Model.Book.Status == Core.Enums.BookStatus.Lost)
+            {
+                <p id="itemStatus">Lost</p>
+            }
+
+
+            @if (Model.Book.Status == Core.Enums.BookStatus.Lost)
+            {
+                <p>This item has been lost! It cannot be checked out.</p>
+                <p><button type="submit" class="btn btn-lg btn-danger" role="button" asp-page-handler="MarkFound" asp-route-id="@Model.Book.Id">Mark Item Found</button></p>
+            }
+
+            @if (Model.Book.Status == Core.Enums.BookStatus.Checkout)
+            {
+                <p id="itemPatron">Checked out by: @Model.Book.PersonName</p>
+                <p><a class="btn btn-lg btn-success" role="button" id="itemPerson" asp-page="Checkin" asp-route-id="@Model.Book.Id">Check In</a></p>
+                <p><a class="btn btn-lg btn-warning" role="button" id="itemPerson" asp-page="Hold" asp-route-id="@Model.Book.Id">Place Hold</a></p>
+            }
+
+            @if (Model.Book.Status == Core.Enums.BookStatus.Checkin)
+            {
+                <p class="btn btn-lg btn-warning" role="button"><a asp-page="Checkout" asp-route-id="@Model.Book.Id">Check Out</a></p>
+            }
+
+        </div>
+        <div class="col-md-4 detailInfo">
+            <table>
+                <tr>
+                    <td class="itemLabel">Title: </td>
+                    <td class="ItemValue">@Model.Book.Title</td>
+                </tr>
+                <tr>
+                    <td class="itemLabel">ISBN: </td>
+                    <td class="ItemValue">@Model.Book.ISBN</td>
+                </tr>
+
+                <tr>
+                    <td class="itemLabel">Replacement Cost: </td>
+                    <td class="ItemValue">₦@Model.Book.Cost</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-6">
+        <h4>Checkout History</h4>
+        <table class="table table-bordered table-hover table-condensed">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Date Checkedout</th>
+                    <th>Date Returned</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var checkout in @Model.Book.CheckoutHistory)
+                {
+                <tr>
+                    <td>@Model.Book.PersonName</td>
+                    <td>@checkout.CheckedOut</td>
+                    <td>@checkout.CheckedIn</td>
+
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="col-lg-6">
+        <h4>Current Holds</h4>
+        <table class="table table-bordered table-hover table-condensed">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Hold Placed</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var hold in Model.Book.CurrentCheckin)
+                {
+                <tr>
+                    <td>@hold.Person.FullName</td>
+                    <td>@hold.CheckedinDate</td>
+
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

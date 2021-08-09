@@ -1,0 +1,57 @@
+﻿@page
+@model BookCheckInOut.Web.Pages.Catalog.HoldModel
+@{
+}
+
+@section Scripts{
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+}
+
+@section Styles{
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+}
+
+<div class="container">
+    <div class="header clearfix detailHeading">
+        <h2 class="text-muted">Place Hold Book Item</h2>
+    </div>
+
+    <div class="jumbotron">
+        <div class="row">
+            <div class="col-md-3">
+                <div>
+                    <p id="itemTitle">@Model.Book.Title</p>
+                    <img class="detailImage" src="@Url.Content(Model.Book.ImageUrl)" />
+                </div>
+            </div>
+        <div class="col-md-9">
+            <p>There are currently @Model.Checkout.CheckinCount holds in the queue for this item.</p>
+            <form method="post">
+                <input type="hidden" asp-for="BookId" value="@Model.Book.Id" />
+
+                <div class="form-group">
+                    <input type="text" class="form-control" asp-for="Person.FirstName" placeholder="Add Firstname*" required />
+                    <span asp-validation-for="Person.FirstName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" asp-for="Person.LastName" placeholder="Add Lastname*" required />
+                    <span asp-validation-for="Person.LastName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" asp-for="Person.MobileNo" placeholder="Mobile No*" required />
+                    <span asp-validation-for="Person.MobileNo" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" asp-for="Person.NationalID" placeholder="National ID*" required />
+                    <span asp-validation-for="Person.NationalID" class="text-danger"></span>
+                </div>
+                <div>
+                    <button type="submit" class="btn btn-success btn-lg">Place Hold</button>
+                </div>
+            </form>
+        </div>
+        </div>
+    </div>
+</div>
